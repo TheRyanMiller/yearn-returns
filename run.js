@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const cron = require('node-cron');
 
-const ACCOUNT_ADDRESS = process.env.ETH_ADDRESS;;
+const ACCOUNT_ADDRESS = process.env.ETH_ADDRESS;
 
 /*
     Yearn Deployed Contract Registry
@@ -24,7 +24,8 @@ const vaultData = [
     }
 ]
 
-let cronValue = "0 12 * * *";
+let cronValue = process.env.CRON_VALUE;
+console.log(process.env.CRON_VALUE)
 let postTask = cron.schedule(cronValue, () => {
     vaultData.forEach(d=>{
         contractCall(ACCOUNT_ADDRESS,d.vaultAddress,d.vaultAbiPath,d.vaultName).then(result=>{
