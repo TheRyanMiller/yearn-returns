@@ -24,12 +24,10 @@ const vaultData = [
     }
 ]
 
-let cronValue = process.env.CRON_VALUE;
-console.log(process.env.CRON_VALUE)
-let postTask = cron.schedule(cronValue, () => {
-    vaultData.forEach(d=>{
-        contractCall(ACCOUNT_ADDRESS,d.vaultAddress,d.vaultAbiPath,d.vaultName,true).then(result=>{
-            console.log(d.vaultName,"Complete.");
-        })
+vaultData.forEach(d=>{
+    contractCall(ACCOUNT_ADDRESS,d.vaultAddress,d.vaultAbiPath,d.vaultName,false).then(result=>{
+        console.log(d.vaultName,"Complete.");
+        console.log(result)
     })
 })
+
