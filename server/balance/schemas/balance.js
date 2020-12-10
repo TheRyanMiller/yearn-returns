@@ -1,4 +1,4 @@
-const mongoose = require("../mongoose.yearn").mongoose;
+const mongoose = require("../../common/services/mongoose.yearn").mongoose;
 const Schema = mongoose.Schema;
 
 // this will be our data base's data structure 
