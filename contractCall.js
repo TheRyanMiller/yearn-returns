@@ -5,12 +5,7 @@ const path = require('path');
 const BalanceRecord = require('./server/balance/schemas/balance');
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.GETH_NODE));
-let underlyingBalance;
-let yTokenBalance;
 let contractBalance;
-let pricePerFullShare;
-let yTokenUsdValue;
-let underlyingUsdValue;
 
 module.exports = (accountAddress, contractAddress, contractAbiPath, vaultNameFriendly, priceId, currentUnitUsdValue, writeData) => new Promise ((resolve,reject) => {
     let correctedPath = path.normalize(contractAbiPath);
@@ -18,9 +13,11 @@ module.exports = (accountAddress, contractAddress, contractAbiPath, vaultNameFri
     let contract = new web3.eth.Contract(parsedABI, contractAddress);
     contract.methods.balanceOf(accountAddress).call().then(balance=>{
         let yTokenBalance = balance / 1e18;
+        console.log("YYYYYYYYYYY --->",yTokenBalance)
         contract.methods.getPricePerFullShare().call().then(pps=>{
-            pricePerFullShare = pps / 1e18;
-            underlyingBalance = pricePerFullShare * yTokenBalance;
+            let pricePerFullShare = pps / 1e18;
+            let underlyingBalance = pricePerFullShare * yTokenBalance;
+            console.log("XXXXXXXX --->",yTokenBalance)
             contract.methods.name().call().then(vaultName=>{
 
                 let balanceRecord = new BalanceRecord({
@@ -34,7 +31,7 @@ module.exports = (accountAddress, contractAddress, contractAbiPath, vaultNameFri
                     pricePerFullShare,
                     underlyingUsdValue: underlyingBalance * currentUnitUsdValue,
                     currentUnitUsdValue,
-                    yTokenUsdValue
+                    priceId
                 })
                 if(writeData){
                     balanceRecord.save((err)=>{

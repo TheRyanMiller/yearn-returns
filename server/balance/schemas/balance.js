@@ -16,10 +16,11 @@ const BalanceRecord = new Schema(
     underlyingPrice: Number,
     underlyingUsdValue: Number,
     currentUnitUsdValue: Number,
-    yTokenUsdValue: Number
+    yTokenUsdValue: Number,
+    priceId: String
   },
   { timestamps: true }
 );
 
 // export the new Schema so we could modify it using Node.js
-module.exports = mongoose.model("history", BalanceRecord);
+module.exports = mongoose.model("balance_record", BalanceRecord);
