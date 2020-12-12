@@ -15,6 +15,7 @@ const BalanceRecord = new Schema(
     pricePerFullShare: Number,
     underlyingPrice: Number,
     underlyingUsdValue: Number,
+    currentUnitUsdValue: Number,
     yTokenUsdValue: Number
   },
   { timestamps: true }

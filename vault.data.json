@@ -1,0 +1,14 @@
+[
+    {
+        "vaultName": "Dai Vault",
+        "vaultAddress": "0xACd43E627e64355f1861cEC6d3a6688B31a6F952",
+        "abiFileName": "yearnDaiVault.json",
+        "priceId": "dai"
+    },
+    {
+        "vaultName": "Curve sBTC LP Vault",
+        "vaultAddress": "0x7ff566e1d69deff32a7b244ae7276b9f90e9d0f6",
+        "abiFileName": "yearnsbtcvault.json",
+        "priceId": "lp-sbtc-curve"
+    }
+]
