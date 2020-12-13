@@ -5,14 +5,24 @@ const earningChart = (props) =>{
     console.log("💲",props.usdGain);
     return (
         <div style={{height: "500px", width: "800px"}} key={props.vaultId}>
-        <Line data={props.chart} options={{
-            responsive: true,
-            title: {
-                text: props.vaultId, 
-                display: true,
-                fontSize: 30
-            },
-            }}/>
+        <Line 
+            data={props.chart} 
+            options={{
+                responsive: true,
+                title: {
+                    text: props.vaultId, 
+                    display: true,
+                    fontSize: 30
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            maxTicksLimit: 8
+                        }
+                    }]
+                }
+            }}
+            />
         <p style={{color:"gray", fontSize: "18px"}}>
             {`Net earnings $${ +props.usdGain }`}
         </p>

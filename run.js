@@ -23,6 +23,7 @@ let cronValue = process.env.CRON_VALUE;
 console.log("Cron value: ",process.env.CRON_VALUE);
 
 let postTask = cron.schedule(cronValue, () => {
+    // Collect Earning Data
     axios.get(url).then((response, error) => {    
         if(error) throw error;
         //console.log("BALANCES GET ALL",response.data);
