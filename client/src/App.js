@@ -14,11 +14,13 @@ function App() {
   useEffect(() =>{
     let url = process.env.REACT_APP_API_URL;
     let port = process.env.REACT_APP_API_PORT; 
+    console.log("URL + PORT:",url+":"+port)
     axios.get(url+":"+port+"/api/balance/getAll").then((response, error) => {    
       if(error) throw error;
       setBalanceRecords(response.data.data)
     })
     .catch(err => console.log(err));
+    
     axios.get(url+":"+port+"/api/balance/calculateGains").then(gainsData => {
       setGains(gainsData.data.data);
       url = "https://api.coingecko.com/api/v3/simple/price?ids=usd-coin,dai,true-usd,tether,usd-coin,chainlink,yearn-finance,binance-usd,wrapped-bitcoin,ethereum,nusd,chainlink,aave-link,lp-sbtc-curve,lp-bcurve,curve-fi-ydai-yusdc-yusdt-ytusd,lp-3pool-curve,gemini-dollar,curve-dao-token&vs_currencies=usd,eth";

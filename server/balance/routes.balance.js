@@ -25,4 +25,4 @@ exports.routesConfig = function (router) {
     router.post('/balance/add', [
         BalanceController.addBalance
     ]);
-};
+};  
