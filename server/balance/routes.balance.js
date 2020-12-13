@@ -16,7 +16,11 @@ exports.routesConfig = function (router) {
     
     router.get('/balance/getFirst', [
         BalanceController.getFirst
-    ]);  
+    ]);
+
+    router.get('/balance/calculateGains', [
+        BalanceController.calculateGains
+    ]);
     
     router.post('/balance/add', [
         BalanceController.addBalance
