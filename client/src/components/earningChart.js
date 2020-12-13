@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-const chart = (props) =>{
-    let netGain = props.usdGain && props.usdGain[props.vaultId] ? props.usdGain[props.vaultId] : 0;
-    console.log("💲",netGain);
+const earningChart = (props) =>{
+    console.log("💲",props.usdGain);
     return (
         <div style={{height: "500px", width: "800px"}} key={props.vaultId}>
         <Line data={props.chart} options={{
@@ -15,10 +14,10 @@ const chart = (props) =>{
             },
             }}/>
         <p style={{color:"gray", fontSize: "18px"}}>
-            {"Net earnings $"+netGain}
+            {`Net earnings $${ +props.usdGain }`}
         </p>
         </div>
     )
 }
 
-export default chart;
+export default earningChart;

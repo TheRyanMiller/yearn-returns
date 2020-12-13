@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Line } from 'react-chartjs-2';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import Chart from './components/chart';
+import ChartList from './components/earningChartList';
 import moment from 'moment';
 import './App.css';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [pricesUsd, setPricesUsd] = useState({});
   const [balanceRecords, setBalanceRecords] = useState({});
   const [gains, setGains] = useState([]);
@@ -53,10 +51,6 @@ function App() {
   },[pricesUsd])
 
   useEffect(() =>{
-    displayCharts();
-  },[gains])
-
-  useEffect(() =>{
     if(balanceRecords && balanceRecords.length>0){
       formatChartData(balanceRecords);
     }
@@ -92,22 +86,6 @@ function App() {
     setCharts(chartData);
   }
 
-  const displayCharts = () => {
-    let newCharts = [];
-    let netGain = 0;
-    Object.keys(charts).forEach(k=>{
-      newCharts.push(charts[k]);
-    })
-    let rows = newCharts.map((chart,idx) => {
-      let vaultId = Object.keys(charts)[idx];
-      return <Chart usdGain={usdGain[vaultId]} chart={chart} idx={idx} vaultId={vaultId} key={vaultId} />
-    })
-    
-    return (<>
-      {rows}
-    </>);
-  }
-
   return (
     <div className="App">
       <header className="App-header">
@@ -115,7 +93,7 @@ function App() {
         
         </p>
         <div style={{height: "800px", width: "800px"}}>
-          { displayCharts() }
+          <ChartList  charts={charts} usdGain={usdGain} />
         </div>
       </header>
     </div>
