@@ -13,11 +13,9 @@ module.exports = (accountAddress, contractAddress, contractAbiPath, vaultNameFri
     let contract = new web3.eth.Contract(parsedABI, contractAddress);
     contract.methods.balanceOf(accountAddress).call().then(balance=>{
         let yTokenBalance = balance / 1e18;
-        console.log("YYYYYYYYYYY --->",yTokenBalance)
         contract.methods.getPricePerFullShare().call().then(pps=>{
             let pricePerFullShare = pps / 1e18;
             let underlyingBalance = pricePerFullShare * yTokenBalance;
-            console.log("XXXXXXXX --->",yTokenBalance)
             contract.methods.name().call().then(vaultName=>{
 
                 let balanceRecord = new BalanceRecord({

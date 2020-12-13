@@ -4,8 +4,10 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require("path");
 const BalanceRouter = require('./server/balance/routes.balance');
+const chainDataFetcher = require('./chainDataFetcher');
 const https = require('https');
 const fs = require('fs');
+const cron = require('node-cron');
 require('dotenv').config();
 
 const API_PORT = process.env.API_PORT;
@@ -22,6 +24,15 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(cors());
 app.use('/api', router);
 BalanceRouter.routesConfig(router);
+
+let cronValue = process.env.CRON_VALUE;
+console.log("Cron value: ",process.env.CRON_VALUE);
+
+let postTask = cron.schedule(cronValue, () => {
+  chainDataFetcher().then(result=>{
+    // Data fetch complete
+  })
+})
 
 // launch our backend into a port
 app.get("*", (req, res) => {
