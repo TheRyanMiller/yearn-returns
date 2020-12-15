@@ -5,16 +5,18 @@ import Chart from './earningChart'
 const earningChartList = (props) =>{
     let newCharts = [];
     let rows = <>Nothing to display</>;
-    console.log("💲",props.gainsData);
+    let vaultGain = {};
     if(props.gainsData.length>0){
       Object.keys(props.charts).forEach(k=>{
         newCharts.push(props.charts[k]);
       })
       rows = newCharts.map((chart,idx) => {
         let vaultId = Object.keys(props.charts)[idx];
-        console.log("📊",idx,vaultId,props.gainsData[idx]);
+        props.gainsData.forEach( g => {
+          if(g.priceId == vaultId) vaultGain = g;
+        })
         return (<>
-          <Chart gainsData={props.gainsData[idx]} 
+          <Chart gainsData={vaultGain} 
               chart={chart} 
               idx={idx} 
               vaultId={vaultId} 

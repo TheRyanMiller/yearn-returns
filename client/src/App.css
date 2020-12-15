@@ -21,3 +21,8 @@ html, body{
 .App-link {
   color: #61dafb;
 }
+
+canvas{
+  width:500px;
+  height:500px;
+}

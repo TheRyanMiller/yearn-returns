@@ -2,12 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import ChartList from './components/earningChartList';
 import moment from 'moment';
+import { Line, Pie } from 'react-chartjs-2';
 import './App.css';
 
 function App() {
   const [balanceRecords, setBalanceRecords] = useState({});
   const [gainsData, setGainsData] = useState([]);
   const [charts, setCharts] = useState([]);
+  const [pieData, setPieData] = useState([]);
 
   useEffect(() =>{
     console.log("VERSION #",process.env.REACT_APP_VERSION);
@@ -29,6 +31,26 @@ function App() {
     
   },[])
 
+  useEffect(() =>{
+    let pieLabels = [];
+    let pieDatasets= [];
+    gainsData.forEach(d=>{
+      if(d.priceId && d.usdGain){
+        pieLabels.push(d.priceId);
+        pieDatasets.push(d.usdGain.toFixed(2));
+      }
+    })
+    let tempPieData = {
+      labels: pieLabels,
+      datasets:[{
+        label: "USD Gains",
+        data: pieDatasets,
+        backgroundColor: ["#237529"],
+        borderWidth:4
+      }]
+    }
+    setPieData(tempPieData);
+  },[gainsData])
 
   useEffect(() =>{
     if(balanceRecords && balanceRecords.length>0){
@@ -37,11 +59,13 @@ function App() {
   },[balanceRecords])
 
   const formatChartData = (data) => {
+    
     let chartData = {};
+    
     data.forEach(d=>{
       if(d.priceId && chartData[d.priceId]){
         chartData[d.priceId].labels.push(moment(d.createdAt).format('MM/DD hh:mm'));
-        chartData[d.priceId].datasets[0].data.push(d.underlyingBalance);
+        chartData[d.priceId].datasets[0].data.push(d.underlyingBalance.toFixed(6));
       }
       else{
         if(d.priceId){
@@ -50,10 +74,8 @@ function App() {
               datasets:[{
                 label: "Underlying Balance",
                 data: [d.underlyingBalance],
-                backgroundColor: [
-                  'rgba(75, 192, 192, 0.6)'
-                ],
-                borderWidth:4
+                backgroundColor: ['#4b0c78'],
+                borderWidth:2
               }]
           }
           chartData[d.priceId] = newObj;
@@ -72,8 +94,20 @@ function App() {
         <p>
         
         </p>
-        <div style={{height: "800px", width: "800px"}}>
+        <div>
           <ChartList  charts={charts} gainsData={gainsData} />
+          <Pie 
+            data={pieData} 
+            options={{
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                    text: "USD Performance", 
+                    display: true,
+                    fontSize: 30
+                }
+            }}
+            />
         </div>
       </header>
     </div>

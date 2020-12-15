@@ -2,13 +2,13 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 
 const earningChart = (props) =>{
-    console.log("💲",props.gainsData);
     return (
-        <div style={{height: "500px", width: "800px"}} key={props.vaultId}>
+        <div key={props.vaultId}>
         <Line 
             data={props.chart} 
             options={{
                 responsive: true,
+                maintainAspectRatio: true,
                 title: {
                     text: props.vaultId, 
                     display: true,
