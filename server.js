@@ -25,6 +25,7 @@ app.use(cors());
 app.use('/api', router);
 BalanceRouter.routesConfig(router);
 
+console.log("VERSION #",process.env.VERSION);
 let cronValue = process.env.CRON_VALUE;
 console.log("Cron value: ",process.env.CRON_VALUE);
 

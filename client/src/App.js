@@ -7,10 +7,10 @@ import './App.css';
 function App() {
   const [balanceRecords, setBalanceRecords] = useState({});
   const [gainsData, setGainsData] = useState([]);
-  const [usdGain, setUsdGain] = useState({});
   const [charts, setCharts] = useState([]);
 
   useEffect(() =>{
+    console.log("VERSION #",process.env.REACT_APP_VERSION);
     let url = process.env.REACT_APP_API_URL;
     let port = process.env.REACT_APP_API_PORT; 
     console.log("URL + PORT:",url+":"+port)
