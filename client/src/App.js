@@ -5,9 +5,8 @@ import moment from 'moment';
 import './App.css';
 
 function App() {
-  const [pricesUsd, setPricesUsd] = useState({});
   const [balanceRecords, setBalanceRecords] = useState({});
-  const [gains, setGains] = useState([]);
+  const [gainsData, setGainsData] = useState([]);
   const [usdGain, setUsdGain] = useState({});
   const [charts, setCharts] = useState([]);
 
@@ -21,15 +20,8 @@ function App() {
     })
     .catch(err => console.log(err));
     
-    axios.get(url+":"+port+"/api/balance/calculateGains").then(gainsData => {
-      setGains(gainsData.data.data);
-      url = "https://api.coingecko.com/api/v3/simple/price?ids=usd-coin,dai,true-usd,tether,usd-coin,chainlink,yearn-finance,binance-usd,wrapped-bitcoin,ethereum,nusd,chainlink,aave-link,lp-sbtc-curve,lp-bcurve,curve-fi-ydai-yusdc-yusdt-ytusd,lp-3pool-curve,gemini-dollar,curve-dao-token&vs_currencies=usd,eth";
-      axios.get(url).then(priceString => {
-        setPricesUsd(priceString.data);
-      }).catch(err=>{
-        console.log(err)
-        throw err;
-      });
+    axios.get(url+":"+port+"/api/balance/getTotalGains").then(gainsData => {
+      setGainsData(gainsData.data.data);
     }).catch(err=>{
       console.log(err)
       throw err;
@@ -37,21 +29,6 @@ function App() {
     
   },[])
 
-  useEffect(() =>{
-    let tempGains = gains;
-    let tempUsdGain = usdGain;
-    Object.keys(gains).forEach(gainsKey=>{
-      Object.keys(pricesUsd).forEach(cgKey=>{
-        if(gainsKey === cgKey){
-          tempGains[gainsKey].usdPrice = pricesUsd[cgKey].usd;
-          tempGains[gainsKey].usdGains = pricesUsd[cgKey].usd * tempGains[gainsKey].gain;
-          tempUsdGain[gainsKey] = (pricesUsd[cgKey].usd * tempGains[gainsKey].gain).toFixed(2);
-        }
-      })
-    })
-    setUsdGain(tempUsdGain)
-    setGains(tempGains)
-  },[pricesUsd,usdGain,gains])
 
   useEffect(() =>{
     if(balanceRecords && balanceRecords.length>0){
@@ -96,7 +73,7 @@ function App() {
         
         </p>
         <div style={{height: "800px", width: "800px"}}>
-          <ChartList  charts={charts} usdGain={usdGain} />
+          <ChartList  charts={charts} gainsData={gainsData} />
         </div>
       </header>
     </div>

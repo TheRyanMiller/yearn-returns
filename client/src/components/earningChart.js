@@ -2,7 +2,7 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 
 const earningChart = (props) =>{
-    console.log("💲",props.usdGain);
+    console.log("💲",props.gainsData);
     return (
         <div style={{height: "500px", width: "800px"}} key={props.vaultId}>
         <Line 
@@ -24,7 +24,7 @@ const earningChart = (props) =>{
             }}
             />
         <p style={{color:"gray", fontSize: "18px"}}>
-            {`Net earnings $${ +props.usdGain }`}
+            {"Net earnings: $" + props.gainsData.usdGain.toFixed(2)}
         </p>
         </div>
     )
