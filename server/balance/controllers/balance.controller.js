@@ -39,7 +39,7 @@ exports.getTotalGains = (req, res) => {
             firstRecords = data;
             let result = [];
             if (err) return res.json({ success: false, error: err });
-            let firstLastOfEachVault = [
+            let lastRecordOfEachVault = [
                 {
                     "$group": {
                         "_id": "$priceId",
@@ -47,7 +47,7 @@ exports.getTotalGains = (req, res) => {
                     }
                 }
             ];
-            Balance.aggregate(firstLastOfEachVault).then((data,err) => {
+            Balance.aggregate(lastRecordOfEachVault).then((data,err) => {
                 lastRecords = data;
                 let difference = {};
                 firstRecords.forEach(r => {
@@ -62,6 +62,8 @@ exports.getTotalGains = (req, res) => {
                     lastRecords.forEach(x =>{
                         if(r._id === x._id){
                             difference.underlyingGain = x.doc.underlyingBalance - r.doc.underlyingBalance;
+                            difference.underlyingBalance = x.doc.underlyingBalance;
+                            difference.underlyingBalanceOriginal = r.doc.underlyingBalance;
                         }
                     });
                     difference.usdGain = difference.underlyingGain * difference.usdPriceUnderlying;

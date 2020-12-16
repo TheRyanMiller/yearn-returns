@@ -24,7 +24,8 @@ const earningChart = (props) =>{
             }}
             />
         <p style={{color:"gray", fontSize: "18px"}}>
-            {"Net earnings: $" + props.gainsData.usdGain.toFixed(2)}
+            {console.log("😎",props.gainsData)}
+            {"Net earnings: $" + props.gainsData.usdGain.toFixed(2) + " ("+props.gainsData.underlyingGain.toFixed(5)+")"}
         </p>
         </div>
     )
